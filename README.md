@@ -43,9 +43,5 @@ Files created by the script
 - `downloads/` — directory where images are stored as `file<ID>.<ext>`.
 - `config.json` — if you choose to save credentials.
 
-Notes and suggestions
-- The script uses `wget` for downloads in separate threads. If you prefer more control over downloads (retries, timeouts), consider replacing `wget` with `requests` streaming.
-- Use reasonable limits and include delays to avoid overloading the API.
-
 License
 This repository does not include a license file. Use at your own risk.
