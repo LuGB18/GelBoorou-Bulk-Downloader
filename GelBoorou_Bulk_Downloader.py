@@ -1,10 +1,15 @@
+import requests
+
 # Import necessary libraries
-import requests, json, wget, os  # For HTTP requests, JSON handling, file download and OS operations
+import os, sys, json #To Handle os related comands and JSON Handling
 from time import sleep  # To add delays between requests
 from threading import Thread  # For parallel image downloads
+import wget  # For HTTP requests and file downloads
 
 # Base API URL for Gelbooru
 api = 'https://gelbooru.com/index.php?page=dapi&s=post&q=index'
+logfile = os.path.join(os.getcwd(), 'log.json')
+log = {'logpath': logfile, 'credsloaded': None, 'finished': False, 'posts': {}}
 # Collect user information
 # Helper to save settings
 def save_config(api_key, user_id):
@@ -40,8 +45,10 @@ try:
             config = json.load(f)
             api_key = config.get('api_key')
             user_id = config.get('user_id')
+        log['credsloaded'] = True
         print("API configuration loaded from file.")
     except FileNotFoundError:
+        log['credsloaded'] = False
         print("Configuration file not found, using manual input.")
         api_key = user_id = None
 
@@ -74,6 +81,7 @@ try:
     # empty tags are already normalized to an empty string
 
 except Exception as e:
+    log = None
     print(f'Error while configuring necessary variables.\nException:{e}')
     raise
 
@@ -117,20 +125,27 @@ try:
             # Extract current post info
             url = resp['post'][pran]['file_url']  # Image URL
             ext = url.split('.')[-1]  # File extension
-            id = resp['post'][pran]['id']  # Unique post ID
+            id = resp['post'][pran]['id']  # Unique post ID -- Can be used for identifying the image on gelboorou
             # Print download info
             print(f'Captured: {url}, Saving as: file{id}.{ext}\n')
             # Start the image download in a separate thread
             dw_img(url, id, ext)
+            # Ensure log structure exists for this page
+            if pnum not in log['posts']:
+                log['posts'][pnum] = []
+            log['posts'][pnum].append({'url': url, 'id': id, 'org_file': url.split('/')[-1], 'saved_as': f'file{id}.{ext}'})
             pran += 1
         # Reset post counter and advance to next page
         pran = 0
         pnum += 1
-        sleep(1)  # Pause to avoid overloading the API
+        sleep(1)  # Pause to end the API Time Limit
     print("Closing...")
-    exit()
+    log['finished'] = True
+    with open(logfile, 'w') as f:
+        f = json.dumps(log, indent=2)
+    sys.exit() #Proper Exit Handling
 
 # Handle user interrupt (Ctrl+C)
 except KeyboardInterrupt:
     print('Closing...')
-    exit()
+    sys.exit() #Proper Exit Handling
