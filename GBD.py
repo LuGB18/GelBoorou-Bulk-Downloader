@@ -1,10 +1,8 @@
-import requests
-
 # Import necessary libraries
 import os, sys, json #To Handle os related comands and JSON Handling
 from time import sleep  # To add delays between requests
 from threading import Thread  # For parallel image downloads
-import wget  # For HTTP requests and file downloads
+import wget, requests  # For HTTP requests and file downloads
 
 # Base API URL for Gelbooru
 api = 'https://gelbooru.com/index.php?page=dapi&s=post&q=index'
