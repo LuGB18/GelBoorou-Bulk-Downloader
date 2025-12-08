@@ -24,7 +24,7 @@ def savefile(data: bytes, name: str, downloadpath:str):
             file.write(data)
             print(f'Wrote Succesfully: {name}')
         return True
-    except OSError or IOError or PermissionError as error:
+    except (OSError or IOError or PermissionError) as error:
         raise OSError(error)
 
 
