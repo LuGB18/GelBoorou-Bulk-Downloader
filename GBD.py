@@ -28,11 +28,11 @@ def main():
 
     #Evita que o GelBooru retorne 401, 404 ou algo desse tipo.
     try:
-        posts = getposts(tags, pages, configlib.api)
+        posts = getposts(tags, pages, configlib.api, configlib.apikey, configlib.userid)
     except ConnectionError:
         print('Connection error, please try again later.')
         exit()
-
+    print('Downloads take time! the script is not stuck. please be patient.')
     for post in posts:
         url = post
         name = post.split('/')[-1]
@@ -40,15 +40,21 @@ def main():
             case False:
                 # Deixa pelo menos 1 LPU pro sistema. evita Fatal Crash.
                 if not enumerate() > configlib.cpu_cores - 1:
-                    Thread(target=downloadpost, args=(url, name), daemon=True).start()
+                    Thread(target=downloadpost, args=(url, name, configlib.downloadpath), daemon=True).start()
                 else:
                     sleep(0.1)
             case True:
-                Thread(target=downloadpost, args=(url, name), daemon=True).start()
+                Thread(target=downloadpost, args=(url, name, configlib.downloadpath), daemon=True).start()
+    while not len(enumerate()) == 1:
+        sleep(0.5)
+    exit()
 
 
 if __name__ == '__main__':
     # Carrega Config
     configlib.loadconfig()
     # Executa Logica Principal.
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        exit()

@@ -1,5 +1,5 @@
 from json import dumps, loads, JSONDecodeError
-from os import cpu_count, remove
+from os import cpu_count, remove, path, mkdir, getcwd
 
 api, userid, apikey, downloadpath, cpu_cores, allow_past_handle = None, None, None, None, None, None
 
@@ -41,8 +41,12 @@ def loadconfig():
             print(f'''WARNING: Overwhelming the System with downloads is disabled. it CAN make the time to download\nLonger since it will wait for other threads to finish.''')
             cpu_cores = cpu_count()
         else:
-            print('WARMING: Overwhelming the System with downloads is enabled. it will make your downloads "faster",\n but it will overwhelm your system and could cause crashes or apps not having enough memory.')
+            print('WARNING: Overwhelming the System with downloads is enabled. it will make your downloads "faster",\n but it will overwhelm your system and could cause crashes or apps not having enough memory.')
 
+        if not path.exists(downloadpath):
+            mkdir(downloadpath)
+
+        downloadpath = path.join(getcwd(), downloadpath)
     # Caso não seja bem sucedido o parsing ou seja em formato incorreto, cria o arquivo denovo.
     # Caso esteja sem permissão ou sei la oque só da erro e sai do programa antes que faz mais cagada.
     except FileNotFoundError:
