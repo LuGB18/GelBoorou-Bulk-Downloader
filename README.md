@@ -1,63 +1,89 @@
-﻿# GelBoorou Bulk Downloader
+# GelBooru Bulk Downloader
 
-A small Python script to bulk-download images from Gelbooru using the XML/API.
+Bulk downloader de imagens e videos do **GelBooru**, escrito em **Python**, com foco em:
 
-**Note:** This tool downloads content from Gelbooru. Make sure you comply with Gelbooru’s Terms of Service and only download content you are permitted to. This project is provided as-is.
+- ✅ Código limpo  
+- ✅ Modularidade  
+- ✅ Controle de concorrência  
+- ✅ Facilidade de uso  
+
+Este projeto começou como um script simples e foi progressivamente **refatorado**,
+separando **lógica**, **configuração** e **execução** em bibliotecas independentes.
 
 ---
 
-## Prerequisites
+## 🚀 Funcionalidades
 
-* Python 3.7+
-* The following Python packages:
+- Download em massa de posts do GelBooru  
+- Filtro por tags  
+- Suporte a múltiplas páginas  
+- Downloads paralelos (multithreading)  
+- Configuração externa (API, CPU, comportamento)  
+- Estrutura modular (sem código monolítico)  
+- Prevenção de sobrecarga do sistema  
 
-  * `requests`
-  * `wget`
+---
 
-Install dependencies with:
+## 📁 Estrutura do Projeto
 
-```bash
-pip install requests wget
+```
+GelBooru-Bulk-Downloader/
+├── main.py            # Lógica principal / interface CLI
+├── configlib.py       # Configurações e carregamento de dados
+├── gelboorulib.py     # Comunicação com a API e download
+├── requirements.txt   # Dependências do projeto
+└── README.md
 ```
 
 ---
 
-## Usage
+## 🧩 Requisitos
 
-1. Place `GelBoorou_Bulk_Downloader.py` in any folder.
+- Python **3.10** ou superior  
+- Conexão com a internet  
+- Conta no GelBooru (para API Key)  
 
-2. (Optional) Create a `config.json` file to store your API credentials and avoid entering them each time:
+### Dependências
 
-   ```json
-   {
-     "api_key": "YOUR_API_KEY",
-     "user_id": "YOUR_USER_ID"
-   }
-   ```
-
-3. Run the script:
-
-   ```bash
-   python GelBoorou_Bulk_Downloader.py
-   ```
-
-4. Follow the prompts:
-
-   * Enter the limit of posts per page (1–100).
-   * Enter how many pages to load.
-   * If no `config.json` is found, you’ll be asked for your `APIKEY` and `USERID`, and offered to save them.
-   * Optionally enter tags to filter results (leave blank for none).
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
-## Output
+## ⚙️ Configuração
 
-* **`downloads/`** — Folder where all downloaded files are saved as `file<ID>.<ext>`.
-* **`config.json`** — Created if you choose to save credentials.
-* **`log.json`** — Contains metadata of all downloaded posts (page, file name, and URL).
+Antes de executar o projeto, configure seus dados no arquivo `configlib.py`.
+
+```python
+{
+    "gelbooru": {
+        "endpoint": "https://gelbooru.com/index.php"
+    },
+    "credentials": {
+        "userid": "<SEU USER ID>",
+        "apikey": "<SUA CHAVE API>"
+    },
+    "downloads": {
+        "folder": "<SEU LOCAL DE DOWNLOAD>"
+    },
+    "system": {
+        "allow_cpu_get_overwhelmed_by_downloads": false
+    }
+}
+```
 
 ---
 
-## License
+## ▶️ Como Usar
 
-No license is included. Use at your own risk.
+```bash
+python main.py
+```
+
+---
+
+## 👨‍💻 Autor
+
+**Luan (LuGB18)**  
+Refatorado com café, ódio do código antigo e aprendizado real.
