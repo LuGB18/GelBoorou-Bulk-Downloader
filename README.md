@@ -2,24 +2,17 @@
 
 Bulk downloader de imagens e videos do **GelBooru**, escrito em **Python**, com foco em:
 
-- ✅ Código limpo  
-- ✅ Modularidade  
-- ✅ Controle de concorrência  
-- ✅ Facilidade de uso  
-
-Este projeto começou como um script simples e foi progressivamente **refatorado**,
-separando **lógica**, **configuração** e **execução** em bibliotecas independentes.
+- Facilidade de uso  
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 - Download em massa de posts do GelBooru  
 - Filtro por tags  
 - Suporte a múltiplas páginas  
 - Downloads paralelos (multithreading)  
-- Configuração externa (API, CPU, comportamento)  
-- Estrutura modular (sem código monolítico)  
+- Configuração externa (API e comportamento pelo config.json)   
 - Prevenção de sobrecarga do sistema  
 
 ---
@@ -37,7 +30,7 @@ GelBooru-Bulk-Downloader/
 
 ---
 
-## 🧩 Requisitos
+## Requisitos
 
 - Python **3.10** ou superior  
 - Conexão com a internet  
@@ -75,15 +68,8 @@ Antes de executar o projeto, configure seus dados no arquivo `configlib.py`.
 
 ---
 
-## ▶️ Como Usar
+## Como Usar
 
 ```bash
 python main.py
 ```
-
----
-
-## 👨‍💻 Autor
-
-**Luan (LuGB18)**  
-Refatorado com café, ódio do código antigo e aprendizado real.
